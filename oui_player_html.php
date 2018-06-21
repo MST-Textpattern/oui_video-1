@@ -172,7 +172,6 @@ namespace Oui\Player {
             }
         }
 
-        register_callback('Oui\Player\Video::getProvider', 'oui_player', 'plug_providers');
 
         class Audio extends Video
         {
@@ -245,6 +244,5 @@ namespace Oui\Player {
             }
         }
 
-        register_callback('Oui\Player\Audio::getProvider', 'oui_player', 'plug_providers');
     }
 }
