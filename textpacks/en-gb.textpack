@@ -1,8 +1,8 @@
 #Default language, en-us, en-gb
 #@admin
 oui_player_provider_video => HTML video
-oui_player_video => HTML video player (oui_player_video)
-oui_player_video_prefs => Display the HTML video player prefs
+oui_player_video => HTML video player
+oui_player_video_prefs => Display the HTML video player preferences
 oui_player_video_width => Player width
 oui_player_video_height => Player height
 oui_player_video_ratio => Player ratio by default

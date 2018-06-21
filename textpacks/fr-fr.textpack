@@ -1,7 +1,7 @@
 #@language fr-fr
 #@admin
 oui_player_provider_video => Video
-oui_player_video => HTML video player (oui_player_video)
+oui_player_video => HTML video player
 oui_player_video_prefs => Afficher les préférences du lecteur video HTML
 oui_player_video_width => Largeur de la vidéo
 oui_player_video_height => Hauteur de la vidéo
