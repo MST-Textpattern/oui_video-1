@@ -42,6 +42,11 @@ namespace Oui\Player {
                     'id'     => '1',
                 ),
             );
+            protected static $mimeTypes = array(
+                'mp4'  => 'video/mp4',
+                'ogv'  => 'video/ogg',
+                'webm' => 'video/webm',
+            );
             protected static $src = '';
             protected static $glue = ' ';
             protected static $params = array(
@@ -70,6 +75,15 @@ namespace Oui\Player {
                     'valid'   => array('none', 'metadata', 'auto'),
                 ),
             );
+
+            /**
+             * {@inheritdoc}
+             */
+
+            public static function getMimeType($extension)
+            {
+                return static::$mimeTypes[$extension];
+            }
 
             /**
              * {@inheritdoc}
@@ -147,6 +161,12 @@ namespace Oui\Player {
 
                     unset($sources[0]);
 
+                    $sourcesStr = array();
+
+                    foreach ($sources as $source) {
+                        $sourcesStr[] = '<source src="' . $source . '" type="' . self::getMimeType(pathinfo($source, PATHINFO_EXTENSION)). '">';
+                    }
+
                     $params = $this->getPlayerParams();
                     $dims = $this->getSize();
 
@@ -158,7 +178,7 @@ namespace Oui\Player {
                         $height,
                         $src,
                         (empty($params) ? '' : ' ' . implode(self::getGlue(), $params)),
-                        ($sources ? n . '<source src="' . implode('">' . n . '<source src="', $sources) . '">' : ''),
+                        ($sourcesStr ? n . implode(n, $sourcesStr) : ''),
                         n . gtxt(
                             'oui_player_html_player_not_supported',
                             array(
@@ -186,6 +206,14 @@ namespace Oui\Player {
                 ),
             );
             protected static $dims = array();
+            protected static $mimeTypes = array(
+                'mp3'  => 'audio/mp3',
+                'ogg'  => 'video/ogg',
+                'oga'  => 'video/ogg',
+                'wav'  => 'video/wave',
+                'aac'  => 'audio/aac',
+                'flac' => 'audio/flac',
+            );
             protected static $params = array(
                 'autoplay' => array(
                     'default' => '0',
@@ -224,13 +252,19 @@ namespace Oui\Player {
 
                     unset($sources[0]);
 
+                    $sourcesStr = array();
+
+                    foreach ($sources as $source) {
+                        $sourcesStr[] = '<source src="' . $source . '" type="' . self::getMimeType(pathinfo($source, PATHINFO_EXTENSION)). '">';
+                    }
+
                     $params = $this->getPlayerParams();
 
                     return sprintf(
                         '<audio src="%s"%s>%s%s</audio>',
                         $src,
                         (empty($params) ? '' : ' ' . implode(self::getGlue(), $params)),
-                        ($sources ? n . '<source src="' . implode('">' . n . '<source src="', $sources) . '">' : ''),
+                        ($sourcesStr ? n . implode(n, $sourcesStr) : ''),
                         n . gtxt(
                             'oui_player_html_player_not_supported',
                             array(
