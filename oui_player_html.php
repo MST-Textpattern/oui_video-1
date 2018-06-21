@@ -154,7 +154,7 @@ namespace Oui\Player {
              * {@inheritdoc}
              */
 
-            public function getPlayer()
+            public function getPlayer($wraptag = null, $class = null)
             {
                 if ($sources = $this->getSources()) {
                     $src = $sources[0];
@@ -169,14 +169,23 @@ namespace Oui\Player {
 
                     $params = $this->getPlayerParams();
                     $dims = $this->getSize();
+                    $wrapstyle = '';
+                    $style = '';
 
                     extract($dims);
 
-                    return sprintf(
-                        '<video width="%s" height="%s" src="%s"%s>%s%s</video>',
+                    if ($this->getResponsive()) {
+                        $wrapstyle .= 'style="position: relative; padding-bottom:' . $pourcent . '; height: 0; overflow: hidden"';
+                        $style .= ' style="position: absolute; top: 0; left: 0" ';
+                        $wraptag or $wraptag = 'div';
+                    }
+
+                    $player = sprintf(
+                        '<video src="%s" width="%s" height="%s"%s%s>%s%s</video>',
+                        $src,
                         $width,
                         $height,
-                        $src,
+                        $style,
                         (empty($params) ? '' : ' ' . implode(self::getGlue(), $params)),
                         ($sourcesStr ? n . implode(n, $sourcesStr) : ''),
                         n . gtxt(
@@ -188,10 +197,11 @@ namespace Oui\Player {
                             )
                         ) . n
                     );
+
+                    return ($wraptag) ? doTag($player, $wraptag, $class, $wrapstyle) : $player;
                 }
             }
         }
-
 
         class Audio extends Video
         {
@@ -205,7 +215,6 @@ namespace Oui\Player {
                     'id'     => '1',
                 ),
             );
-            protected static $dims = array();
             protected static $mimeTypes = array(
                 'mp3'  => 'audio/mp3',
                 'ogg'  => 'video/ogg',
@@ -213,6 +222,11 @@ namespace Oui\Player {
                 'wav'  => 'video/wave',
                 'aac'  => 'audio/aac',
                 'flac' => 'audio/flac',
+            );
+            protected static $dims = array(
+                'width'     => array(
+                    'default' => '',
+                ),
             );
             protected static $params = array(
                 'autoplay' => array(
@@ -245,7 +259,7 @@ namespace Oui\Player {
              * {@inheritdoc}
              */
 
-            public function getPlayer()
+            public function getPlayer($wraptag = null, $class = null)
             {
                 if ($sources = $this->getSources()) {
                     $src = $sources[0];
@@ -259,10 +273,16 @@ namespace Oui\Player {
                     }
 
                     $params = $this->getPlayerParams();
+                    $dims = $this->getSize();
 
-                    return sprintf(
-                        '<audio src="%s"%s>%s%s</audio>',
+                    extract($dims);
+
+                    $style = !empty($width) ? ' style="width:' . $width . '"' : '';
+
+                    $player = sprintf(
+                        '<audio src="%s"%s%s>%s%s</audio>',
                         $src,
+                        $style,
                         (empty($params) ? '' : ' ' . implode(self::getGlue(), $params)),
                         ($sourcesStr ? n . implode(n, $sourcesStr) : ''),
                         n . gtxt(
@@ -274,6 +294,8 @@ namespace Oui\Player {
                             )
                         ) . n
                     );
+
+                    return ($wraptag) ? doTag($player, $wraptag, $class) : $player;
                 }
             }
         }
