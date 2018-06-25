@@ -1,6 +1,6 @@
 {
-    "name"        : "oui_player_html",
-    "description" : "HTML5 video and audio extension for oui_player v2+",
+    "name"        : "oui_video",
+    "description" : "HTML5 video extension for oui_player v2+",
     "version"     : "1.0.0-dev",
     "type"        : 1,
     "author"      : "Nicolas Morand",
