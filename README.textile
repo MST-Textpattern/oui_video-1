@@ -171,6 +171,6 @@ This is free software, and you are welcome to redistribute it "under certain con
 
 h3. Changelog
 
-* *oui_video v1.0.0-beta* (2018-06-24)
+* *oui_video v1.0.0-alpha* (2018-06-25)
 ** Added: MIME types managements.
 * *oui_player v1.3.0* (2017-05-24)
