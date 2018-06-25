@@ -54,6 +54,17 @@ namespace Oui\Player {
             );
             protected static $src = '';
             protected static $glue = ' ';
+            protected static $dims = array(
+                'width'    => array(
+                    'default' => '640',
+                ),
+                'height'   => array(
+                    'default' => '',
+                ),
+                'ratio'    => array(
+                    'default' => '16:9',
+                ),
+            );
             protected static $params = array(
                 'autoplay' => array(
                     'default' => '0',
