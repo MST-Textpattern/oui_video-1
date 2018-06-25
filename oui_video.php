@@ -52,8 +52,6 @@ namespace Oui\Player {
                 'ogv'  => 'video/ogg',
                 'webm' => 'video/webm',
             );
-            protected static $src = '';
-            protected static $glue = ' ';
             protected static $dims = array(
                 'width'    => array(
                     'default' => '640',
