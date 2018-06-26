@@ -1,7 +1,7 @@
 {
     "name"        : "oui_video",
-    "description" : "HTML5 video extension for oui_player v2+",
-    "version"     : "1.0.0-alpha",
+    "description" : "Create HTML5 video players through oui_player v2+",
+    "version"     : "1.0.0-BETA1",
     "type"        : 1,
     "author"      : "Nicolas Morand",
     "author_uri"  : "http://github.com/NicolasGraph",
