@@ -122,12 +122,12 @@ namespace Oui\Player {
                         $width = $height = false;
                         $wraptag or $wraptag = 'div';
                     } else {
-                        if (preg_match("/(\D+)/", $width, $unit)) {
+                        if (is_string($width)) {
                             $style ? $style .= '; width:' . $width : $style = ' style="width:' . $width . '';
                             $width = false;
                         }
 
-                        if (preg_match("/(\D+)/", $height, $unit)) {
+                        if (is_string($height)) {
                             $style ? $style .= '; height:' . $height : $style = ' style="height:' . $height . '';
                             $height = false;
                         }
