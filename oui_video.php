@@ -109,22 +109,23 @@ namespace Oui\Player {
 
                     $params = $this->getPlayerParams();
                     $dims = $this->getSize();
+
+                    $responsive = $this->getResponsive();
                     $wrapstyle = '';
                     $style = '';
 
                     extract($dims);
 
-                    if ($this->getResponsive()) {
-                        $wrapstyle .= 'style="position: relative; padding-bottom:' . $pourcent . '; height: 0; overflow: hidden"';
-                        $style .= ' style="position: absolute; top: 0; left: 0" ';
+                    if ($responsive) {
+                        $wrapstyle .= 'style="position: relative; padding-bottom:' . $height . '; height: 0; overflow: hidden"';
+                        $style .= ' style="position: absolute; top: 0; left: 0; width: 100%; height: 100% ';
                         $wraptag or $wraptag = 'div';
                     }
 
                     $player = sprintf(
-                        '<video src="%s" width="%s" height="%s"%s%s>%s%s</video>',
+                        '<video src="%s"%s%s %s>%s%s</video>',
                         $src,
-                        $width,
-                        $height,
+                        $responsive ? '' : ' width="' . $width . '" height="' . $height . '"',
                         $style,
                         (empty($params) ? '' : ' ' . implode(self::getGlue(), $params)),
                         ($sourcesStr ? n . implode(n, $sourcesStr) : ''),
