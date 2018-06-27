@@ -117,15 +117,29 @@ namespace Oui\Player {
                     extract($dims);
 
                     if ($responsive) {
-                        $wrapstyle .= 'style="position: relative; padding-bottom:' . $height . '; height: 0; overflow: hidden"';
+                        $wrapstyle .= ' style="position: relative; padding-bottom:' . $height . '; height: 0; overflow: hidden"';
                         $style .= ' style="position: absolute; top: 0; left: 0; width: 100%; height: 100% ';
+                        $width = $height = false;
                         $wraptag or $wraptag = 'div';
+                    } else {
+                        if (preg_match("/(\D+)/", $width, $unit)) {
+                            $style ? $style .= '; width:' . $width : $style = ' style="width:' . $width . '';
+                            $width = false;
+                        }
+
+                        if (preg_match("/(\D+)/", $height, $unit)) {
+                            $style ? $style .= '; height:' . $height : $style = ' style="height:' . $height . '';
+                            $height = false;
+                        }
+
+                        $style .= '"';
                     }
 
                     $player = sprintf(
-                        '<video src="%s"%s%s %s>%s%s</video>',
+                        '<video src="%s"%s%s%s%s>%s%s</video>',
                         $src,
-                        $responsive ? '' : ' width="' . $width . '" height="' . $height . '"',
+                        !$width ? '' : ' width="' . $width . '"',
+                        !$height ? '' : ' height="' . $height . '"',
                         $style,
                         (empty($params) ? '' : ' ' . implode(self::getGlue(), $params)),
                         ($sourcesStr ? n . implode(n, $sourcesStr) : ''),
