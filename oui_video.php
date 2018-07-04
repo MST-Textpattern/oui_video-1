@@ -131,9 +131,9 @@ namespace Oui\Player {
                             $style ? $style .= '; height:' . $height : $style = ' style="height:' . $height . '';
                             $height = false;
                         }
-
-                        $style .= '"';
                     }
+
+                    $style ? $style .= '"' : '';
 
                     $player = sprintf(
                         '<video src="%s"%s%s%s%s>%s%s</video>',
