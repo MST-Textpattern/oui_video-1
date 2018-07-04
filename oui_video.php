@@ -53,15 +53,9 @@ namespace Oui {
                 'webm' => 'video/webm',
             );
             protected static $dims = array(
-                'width'    => array(
-                    'default' => '640',
-                ),
-                'height'   => array(
-                    'default' => '',
-                ),
-                'ratio'    => array(
-                    'default' => '16:9',
-                ),
+                'width'  => '640',
+                'height' => '',
+                'ratio'  => '16:9',
             );
             protected static $params = array(
                 'autoplay' => array(
