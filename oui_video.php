@@ -33,7 +33,7 @@
 
 namespace Oui\Player {
 
-    if (class_exists('Oui\Player\Audio')) {
+    if (class_exists('Oui\Audio')) {
 
         class Video extends Audio
         {
