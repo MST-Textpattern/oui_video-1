@@ -173,7 +173,7 @@ This is free software, and you are welcome to redistribute it "under certain con
 
 h3. Changelog
 
-* *oui_video v1.0.0-BETA3* (2018-07-04)
+* *oui_video v1.0.0-BETA3* (2018-07-05)
 ** Added: MIME types managements;
 ** changed: now extended from @Oui\Player\Audio@;
 * *oui_player v1.3.0* (2017-05-24)
