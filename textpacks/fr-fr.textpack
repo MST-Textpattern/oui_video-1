@@ -3,6 +3,10 @@
 oui_player_provider_video => video HTML
 oui_player_video => Lecteur video HTML
 oui_player_video_prefs => Afficher les préférences du lecteur video HTML
+oui_player_video_width => Largeur du lecteur
+oui_player_video_height => Hauteur du lecteur
+oui_player_video_ratio => Ratio utilisé en l'absence de l'une des dimensions
+oui_player_video_responsive => Rendre les lecteurs adaptatifs à partir des dimensions fournies
 oui_player_video_autoplay => Lecture automatique
 oui_player_video_controls => Afficher les commandes
 oui_player_video_loop => Lire en boucle

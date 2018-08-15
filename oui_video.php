@@ -38,9 +38,13 @@ if (class_exists('Oui\Audio')) {
     class Video extends Audio
     {
         protected static $iniDims = array(
-            'width'  => '640',
-            'height' => '',
-            'ratio'  => '16:9',
+            'width'      => '640',
+            'height'     => '',
+            'ratio'      => '16:9',
+            'responsive' => array(
+                'default' => 'false',
+                'valid'   => array('true', 'false'),
+            ),
         );
         protected static $iniParams = array(
             'autoplay' => array(
