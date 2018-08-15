@@ -5,7 +5,7 @@
  * a oui_player v2+ extension to easily create
  * HTML5 customizable video and audio players in Textpattern CMS.
  *
- * https://github.com/NicolasGraph/oui_player_html
+ * https://github.com/NicolasGraph/oui_video
  *
  * Copyright (C) 2018 Nicolas Morand
  *
@@ -31,124 +31,130 @@
  * @package Oui\Player
  */
 
-namespace Oui {
+namespace Oui;
 
-    if (class_exists('Oui\Audio')) {
+if (class_exists('Oui\Audio')) {
 
-        class Video extends Audio
+    class Video extends Audio
+    {
+        protected static $iniDims = array(
+            'width'      => '640',
+            'height'     => '',
+            'ratio'      => '16:9',
+            'responsive' => array(
+                'default' => 'false',
+                'valid'   => array('true', 'false'),
+            ),
+        );
+        protected static $iniParams = array(
+            'autoplay' => array(
+                'default' => '0',
+                'valid'   => array('0', '1'),
+            ),
+            'controls' => array(
+                'default' => '0',
+                'valid'   => array('0', '1'),
+            ),
+            'loop'     => array(
+                'default' => '0',
+                'valid'   => array('0', '1'),
+            ),
+            'muted'     => array(
+                'default' => '0',
+                'valid'   => array('0', '1'),
+            ),
+            'poster'  => array(
+                'default' => '',
+                'valid'   => 'url',
+            ),
+            'preload'  => array(
+                'default' => 'auto',
+                'valid'   => array('none', 'metadata', 'auto'),
+            ),
+        );
+        protected static $mediaType = 'video';
+        protected static $mediaPatterns = array(
+            'filename' => array(
+                'scheme' => '#^((?!(http|https)://(www\.)?)\S+\.(mp4|ogv|webm))$#i',
+                'id'     => '1',
+            ),
+            'url' => array(
+                'scheme' => '#^((https?://(www\.)?)\S+\.(mp4|ogv|webm))$#i',
+                'id'     => '1',
+            ),
+        );
+        protected static $mediaMimeTypes = array(
+            'mp4'  => 'video/mp4',
+            'ogv'  => 'video/ogg',
+            'webm' => 'video/webm',
+        );
+
+        /**
+         * {@inheritdoc}
+         */
+
+        public function getHTML()
         {
-            protected static $patterns = array(
-                'filename' => array(
-                    'scheme' => '#^((?!(http|https)://(www\.)?)\S+\.(mp4|ogv|webm))$#i',
-                    'id'     => '1',
-                ),
-                'url' => array(
-                    'scheme' => '#^(((http|https)://(www\.)?)\S+\.(mp4|ogv|webm))$#i',
-                    'id'     => '1',
-                ),
-            );
-            protected static $mimeTypes = array(
-                'mp4'  => 'video/mp4',
-                'ogv'  => 'video/ogg',
-                'webm' => 'video/webm',
-            );
-            protected static $dims = array(
-                'width'  => '640',
-                'height' => '',
-                'ratio'  => '16:9',
-            );
-            protected static $params = array(
-                'autoplay' => array(
-                    'default' => '0',
-                    'valid'   => array('0', '1'),
-                ),
-                'controls' => array(
-                    'default' => '0',
-                    'valid'   => array('0', '1'),
-                ),
-                'loop'     => array(
-                    'default' => '0',
-                    'valid'   => array('0', '1'),
-                ),
-                'muted'     => array(
-                    'default' => '0',
-                    'valid'   => array('0', '1'),
-                ),
-                'poster'  => array(
-                    'default' => '',
-                    'valid'   => 'url',
-                ),
-                'preload'  => array(
-                    'default' => 'auto',
-                    'valid'   => array('none', 'metadata', 'auto'),
-                ),
-            );
+            if ($sources = $this->getMediaInfos()) {
+                $src = array_shift($sources)['uri'];
+                $sourcesStr = array();
 
-            /**
-             * {@inheritdoc}
-             */
-
-            public function getPlayer($wraptag = null, $class = null)
-            {
-                if ($sources = $this->getSources()) {
-                    $src = $sources[0];
-
-                    unset($sources[0]);
-
-                    $sourcesStr = array();
-
-                    foreach ($sources as $source) {
-                        $sourcesStr[] = '<source src="' . $source . '" type="' . self::getMimeType(pathinfo($source, PATHINFO_EXTENSION)). '">';
-                    }
-
-                    $params = $this->getPlayerParams();
-                    $dims = $this->getSize();
-
-                    $responsive = $this->getResponsive();
-                    $wrapstyle = '';
-                    $style = '';
-
-                    extract($dims);
-
-                    if ($responsive) {
-                        $wrapstyle .= ' style="position: relative; padding-bottom:' . $height . '; height: 0; overflow: hidden"';
-                        $style .= ' style="position: absolute; top: 0; left: 0; width: 100%; height: 100% ';
-                        $width = $height = false;
-                        $wraptag or $wraptag = 'div';
-                    } else {
-                        if (is_string($width)) {
-                            $style ? $style .= '; width:' . $width : $style = ' style="width:' . $width . '';
-                            $width = false;
-                        }
-
-                        if (is_string($height)) {
-                            $style ? $style .= '; height:' . $height : $style = ' style="height:' . $height . '';
-                            $height = false;
-                        }
-                    }
-
-                    $style ? $style .= '"' : '';
-
-                    $player = sprintf(
-                        '<video src="%s"%s%s%s%s>%s%s</video>',
-                        $src,
-                        !$width ? '' : ' width="' . $width . '"',
-                        !$height ? '' : ' height="' . $height . '"',
-                        $style,
-                        (empty($params) ? '' : ' ' . implode(self::getGlue(), $params)),
-                        ($sourcesStr ? n . implode(n, $sourcesStr) : ''),
-                        n . gtxt(
-                            'oui_player_html_player_not_supported',
-                            array(
-                                '{player}' => '<video>',
-                                '{src}'    => $src,
-                                '{file}'   => basename($src),
-                            )
-                        ) . n
-                    );
-
-                    return ($wraptag) ? doTag($player, $wraptag, $class, $wrapstyle) : $player;
+                foreach ($sources as $source) {
+                    $sourcesStr[] = '<source src="' . $source['uri'] . '" type="' . self::getMediaMimeType(pathinfo($source['uri'], PATHINFO_EXTENSION)). '">';
                 }
+
+                $paramsStr = '';
+
+                foreach ($this->getParams() as $param => $value) {
+                    $paramsStr .= self::getSrcGlue() . ($value === true ? $param : $param . '=' . $value);
+                }
+
+                $dims = $this->getDims();
+                $wrapStyle = '';
+                $style = '';
+
+                extract($dims);
+
+                if ($responsive) {
+                    $wrapStyle .= ' style="position: relative; padding-bottom:' . $height . '; height: 0; overflow: hidden"';
+                    $style .= ' style="position: absolute; top: 0; left: 0; width: 100%; height: 100% ';
+                    $width = $height = false;
+                } else {
+                    foreach (array('width', 'height') as $dim) {
+                        if (is_string($$dim)) {
+                            $style = ' style="' . $dim . ':' . $$dim . '';
+                            $$dim = false;
+                        }
+                    }
+                }
+
+                $style ? $style .= '"' : '';
+
+                $player = sprintf(
+                    '<video src="%s"%s%s%s%s>%s%s</video>',
+                    $src,
+                    !$width ? '' : ' width="' . $width . '"',
+                    !$height ? '' : ' height="' . $height . '"',
+                    $style,
+                    $paramsStr,
+                    ($sourcesStr ? n . implode(n, $sourcesStr) : ''),
+                    n . gtxt(
+                        'oui_player_html_player_not_supported',
+                        array(
+                            '{player}' => '<video>',
+                            '{src}'    => $src,
+                            '{file}'   => basename($src),
+                        )
+                    ) . n
+                );
+
+                list($wraptag, $class) = $this->getWrap();
+                list($label, $labeltag) = $this->getLabel();
+
+                $wrapStyle && !$wraptag ? $wraptag = 'div' : '';
+                $wraptag ? $player = n . $player . n : '';
+
+                return doLabel($label, $labeltag) . n . doTag($player, $wraptag, $class, $wrapStyle);
             }
         }
     }

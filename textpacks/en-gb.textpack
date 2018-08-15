@@ -1,17 +1,18 @@
 #Default language, en-us, en-gb
 #@admin
-oui_player_provider_audio => HTML audio
-oui_player_audio => HTML audio player
-oui_player_audio_prefs => Display the HTML audio player prefs
-oui_player_audio_autoplay => automatic playing
-oui_player_audio_controls => Display controls
-oui_player_audio_loop => Replay once finished
-oui_player_audio_muted => Disable sound
-oui_player_audio_preload => Loading type
-oui_player_audio_preload_auto => auto
-oui_player_audio_preload_metadata => metadata
-oui_player_audio_preload_none => none
-oui_player_audio_volume => Volume (0 to 1)
-oui_player_audio_unavailable => Sorry, the HTML audio player is not supported by your browser.
-#@public
-oui_player_html_player_not_supported => Unfortunatly, your browser is not able to read <a href="{src}">{file}</a>. The HTML5 {player} tag is not supported.
+oui_player_provider_video => HTML video
+oui_player_video => HTML video player
+oui_player_video_prefs => Display the HTML video player prefs
+oui_player_video_width => Player width
+oui_player_video_height => Player height
+oui_player_video_ratio => Player ratio by default
+oui_player_video_responsive => Render responsive players from the provided dimensions
+oui_player_video_autoplay => automatic playing
+oui_player_video_controls => Display controls
+oui_player_video_loop => Replay once finished
+oui_player_video_muted => Disable sound
+oui_player_video_preload => Loading type
+oui_player_video_preload_auto => auto
+oui_player_video_preload_metadata => metadata
+oui_player_video_preload_none => none
+oui_player_video_poster => Starting shot URL
